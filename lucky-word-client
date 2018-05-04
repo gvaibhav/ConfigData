@@ -1,5 +1,5 @@
 ---
 wordConfig:
-  luckyWord:“Serendipity”
-preamble: “The lucky word is”
+  luckyWord: Serendipity
+preamble: The lucky word is
     
