@@ -1,0 +1,365 @@
+#%RAML 1.0
+title: im-eqtypm-avantis-prs
+
+types:
+  RebCommon: !include types/RebSumCommon.raml
+  UpdContTgt: !include types/UpdateCntTgt.raml
+  TrigRebBtCommon: !include types/TrigRebBtCommon.raml
+  GetRebBtCommon: !include types/GetRebBtCommon.raml
+  EditModelInputParameteRQ: !include /types/typeModelInputParamsEditRQ.raml  
+  getModelInputParams: !include types/getModelInputParamsTypes.raml
+
+/portfolios:
+  get:
+    responses:
+      200:
+        body:
+          application/json:
+            example: 
+             !include examples/PortfolioSummarySuccess.raml
+      401:
+          description: Unauthorized
+      403:
+        description: Forbidden
+      404:
+        description: Not Found
+      204:
+        body:
+          application/json:
+            example: 
+             !include examples/PortfolioSummaryFailure.raml
+      500:
+        description: Internal Server Error
+
+  /universe:
+    description: Data Gallery Investable Universe
+    post:
+     body:
+      application/json:
+        type: RebCommon
+        example:
+          !include examples/RequestCommon.raml
+     responses:
+      200:
+        body:
+          application/json:
+            example:
+              !include examples/InvestableUniverseSuccess.raml
+      401:
+        description: Unauthorized
+      403:
+        description: Forbidden
+      404:
+        description: Not Found
+      204:
+        body:
+          application/json:
+            example:
+              !include examples/InvestableUniverseFailure.raml
+      500:
+        description: Internal Server Error
+      
+  /holdings:
+   description: Data Gallery Portfolio Holdings
+   post:
+    body:
+      application/json:
+        type: RebCommon
+        example:
+          !include examples/RequestCommon.raml
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              !include examples/PortfolioHoldingsSuccess.raml
+      401:
+        description: Unauthorized
+      403:
+        description: Forbidden
+      404:
+        description: Not Found
+      204:
+        body:
+          application/json:
+            example:
+              !include examples/PortfolioHoldingsFailure.raml
+      500:
+        description: Internal Server Error
+
+  /excludedholdings:
+   description: Data Gallery excluded holdings 
+   post:
+      body:
+       application/json:
+        type: RebCommon
+        example:
+          !include examples/RequestCommon.raml
+      responses:
+        200:
+          body:
+            application/json:
+              example:
+                !include examples/ExcludedHoldingsSuccess.raml
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        204:
+          body:
+            application/json:
+              example:
+                !include examples/ExcludedHoldingsFailure.raml
+        500:
+          description: Internal Server Error
+  
+  /countrytargets:
+   description: Update/Get Country Target
+   post:
+     body:
+      application/json:
+        type: UpdContTgt
+        example:
+          !include examples/CountryTargetUpdateRequest.raml
+     responses:
+      200:
+        body:
+          application/json:
+            example:
+              !include examples/CountryTargetUpdateResponseSuccess.raml
+      401:
+        description: Unauthorized
+      403:
+        description: Forbidden
+      500:
+        body:
+          application/json:
+            example:
+              !include examples/CountryTargetUpdateResponseFailure.raml
+      404:
+        description: Not Found
+
+   get:
+     body:
+      application/json:
+        type: RebCommon
+        example:
+          !include examples/RequestCommon.raml
+     responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/CountryTargetGetSuccess.raml
+      401:
+        description: Unauthorized
+      403:
+        description: Forbidden
+      404:
+        description: Not Found
+      204:
+        body:
+          application/json:
+            example: !include examples/CountryTargetGetFailure.raml
+      500:
+        description: Internal Server Error
+
+/breaksandtargets:
+    description: Trigger/Get Breaks and Targets
+    post:
+      body:
+        application/json:
+          type: TrigRebBtCommon
+          example: !include examples/TriggerRebBtCommonRequest.raml
+      responses:
+        202:
+          body:
+            application/json:
+              example: !include examples/TriggerRebBtCommonResponseSuccess.raml
+        401:
+          description: Unauthorized
+        402:
+          description: Bad Request
+        403:
+          description:  Forbidden
+        404:
+          description: Not Found
+        500:
+          body:
+            application/json:
+              example:
+                !include examples/TriggerRebBtCommonResponseFailure.raml  
+
+    get:
+     queryParameters:
+      portfolioShortName:
+        displayName: portfolioShortName
+        type: string
+        example: "EAVUV"
+      sessionId:
+        displayName: sessionId
+        type: string
+        example: "ndhdg-46453-ndhdf-85858"
+        required: false
+     responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/GetBtResponseSuccess.raml
+        500:
+           description: Internal Server Error
+        404:
+          description:  Not found 
+        401:
+          description: Unauthorized
+        402:
+          description: Bad Request
+        403:
+          description:  Forbidden
+        204:
+          body:
+            application/json:
+              example: !include examples/GetRebBtCommonResponseFailure.raml
+
+/preprocess:
+  description: Company Details
+  post:
+    body:
+      application/json:
+        type: RebCommon
+        example:
+          !include examples/RequestCommon.raml
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              !include examples/CompanyDetailsSuccess.raml
+      401:
+        description: Unauthorized
+      403:
+        description: Forbidden
+      404:
+        description: Not Found
+      204:
+        body:
+          application/json:
+            example:
+              !include examples/CompanyDetailsFailure.raml
+      500:
+        description: Internal Server Error
+
+/rebalance:
+  description: Trigger/Get rebalancing
+  post:
+    body:
+      application/json:
+        type: TrigRebBtCommon
+        example:
+          !include examples/TriggerRebBtCommonRequest.raml
+    responses:
+      202:
+        body:
+          application/json:
+            example:
+              !include examples/TriggerRebBtCommonResponseSuccess.raml
+      401:
+        description: Unauthorized
+      403:
+        description: Forbidden
+      404:
+        description: Not Found
+      500:
+        body:
+          application/json:
+            example:
+              !include examples/TriggerRebBtCommonResponseFailure.raml
+
+  get:
+    queryParameters:
+      portfolioShortName:
+        displayName: portfolioShortName
+        type: string
+        example: "EAVUV"
+      sessionId:
+        displayName: sessionId
+        type: string
+        example: "ndhdg-46453-ndhdf-85858"
+        required: false
+    responses:
+      200:
+        body:
+          application/json:
+            example:
+              !include examples/GetRebResponseSuccess.raml
+      401:
+        description: Unauthorized
+      403:
+        description: Forbidden
+      404:
+        description: Not Found
+      204:
+        body:
+          application/json:
+            example:
+              !include examples/GetRebBtCommonResponseFailure.raml
+
+  /modelparameters:
+    description: Data mdoel input parameters 
+    get:
+      body:
+       application/json:
+        type: getModelInputParams
+        examples:
+          ModelInputParamsBreaksRQ: !include examples/ModelInputParamsBreaksRQ.raml
+          ModelInputParamsRebalanceRQ: !include examples/ModelInputParamsRebalanceRQ.raml
+      responses:
+        200:
+          body:
+            application/json:
+              examples:
+                ModelInputParamsBreaksRS:  !include examples/ModelInputParamsBreaksRS.raml
+                ModelInputParamsRebalanceRS:  !include examples/ModelInputParamsRebalanceRS.raml
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        204:
+          body:
+            application/json:
+              example:
+                !include examples/ModelInputParamFailure.raml
+        500:
+          description: Internal Server Error
+
+    post:
+      body:
+       application/json:
+        type: EditModelInputParameteRQ
+        examples:
+          ModelInputParamsEditBreaksRQ: !include examples/ModelInputParamsEditBreaksRQ.raml
+          ModelInputParamsEditRebalanceRQ: !include examples/ModelInputParamsEditRebalanceRQ.raml
+          
+      responses:
+        200:
+          body:
+            application/json:
+              examples:
+               ModelInputParamsEditBreaksRS: !include examples/ModelInputParamsEditBreaksRS.raml
+               ModelInputParamsEditRebalanceRS: !include examples/ModelInputParamsEditRebalanceRS.raml
+        401:
+          description: Unauthorized
+        403:
+          description: Forbidden
+        404:
+          description: Not Found
+        204:
+          body:
+            application/json:
+              example:
+                !include examples/ModelInputParamFailure.raml
+        500:
+          description: Internal Server Error
